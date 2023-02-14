@@ -8,23 +8,20 @@ client = pymongo.MongoClient("mongodb://localhost:27017/")
 
 # Get the database and create it if it doesn't exist
 db = client["den_quest"]
-if "den_quest" not in client.list_database_names():
-    db = client["den_quest"]
-
 
 # Get the player collection and create it if it doesn't exist
 player_collection = db["players"]
 # Collection requires one record to be inserted to be created... How vexing
-player_collection.create_index([("playerID", pymongo.ASCENDING)], unique=True)
+player_collection.create_index([("user_ID", pymongo.ASCENDING)], unique=True)
 # playerID must be unique
 player = {
-    "playerID": "9956",
+    "user_ID": "9956",
     "name": "Jerry",
     "title": "mouse",
     "location": [0, 0, 0],
     "experience": 0
 }
-existing_player = player_collection.find_one({"name": "Jerry"})
+existing_player = player_collection.find_one({"user_ID": "9956"})
 if not existing_player:
     result = player_collection.insert_one(player)
     print("Inserted player: ", result)
